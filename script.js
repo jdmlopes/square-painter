@@ -1,17 +1,18 @@
 const grid = document.querySelector('#grid');
-const gridSideLenght = 960;
-const gridRowCellCount = 16;
+const body = document.querySelector('body');
+const GRIDSIDE = 960;
+let gridRowCellCount = 16;
 
 generateGrid(gridRowCellCount);
 
 const gridCells = document.querySelectorAll('.grid-cell');
 
-
+/* COLOR THE CELLS */
 let mouseDown = 0;
-grid.addEventListener('mousedown',() => {
+body.addEventListener('mousedown',() => {
     mouseDown = 1;
 });
-grid.addEventListener('mouseup',() => {
+body.addEventListener('mouseup',() => {
     mouseDown = 0;
 });
 
@@ -19,12 +20,21 @@ gridCells.forEach((cell) => {
     cell.addEventListener('mouseover',()=>{
         if(mouseDown) changeCellColor(cell,'rgb(34, 34, 34)');
     });
+
+    cell.addEventListener('click',()=>{
+        changeCellColor(cell,'rgb(34, 34, 34)');
+    });
 });
 
+document.querySelector('#clear-btn').addEventListener('click',() =>{
+    clearGrid();
+});
+
+/* GRID FUNCTIONS */
 
 function generateGrid(rowCellCount){
     
-    let cellSize = gridSideLenght/rowCellCount;
+    let cellSize = GRIDSIDE/rowCellCount;
 
     
     for(i = 0; i < rowCellCount; i++){
@@ -40,4 +50,10 @@ function generateGrid(rowCellCount){
 
 function changeCellColor(currentCell,color){
     currentCell.style.backgroundColor = `${color}`;
+}
+
+function clearGrid(){
+    gridCells.forEach((cell) => {
+        changeCellColor(cell,'white');
+    });
 }

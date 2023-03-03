@@ -2,6 +2,8 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 1000px;
+
 }
 
 #grid{
@@ -9,6 +11,7 @@ body{
     display: flex;
     flex-wrap: wrap;
     width: 964px;
+    min-width: 964px;
     padding: 0px;
     border: 2px solid blue;
     
