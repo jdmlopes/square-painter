@@ -1,8 +1,9 @@
 const grid = document.querySelector('#grid');
 const body = document.querySelector('body');
-const GRIDSIDE = 960;
+const GRIDSIDE = grid.offsetWidth - 4;
 let gridRowCellCount = 16;
 let gridLines = true;
+let brushColor = 'rgb(34, 34, 34)';
 
 generateGrid(gridRowCellCount);
 
@@ -19,18 +20,21 @@ body.addEventListener('mouseup',() => {
 
 gridCells.forEach((cell) => {
     cell.addEventListener('mouseover',()=>{
-        if(mouseDown) changeCellColor(cell,'rgb(34, 34, 34)');
+        if(mouseDown) changeCellColor(cell,brushColor);
     });
 
     cell.addEventListener('click',()=>{
-        changeCellColor(cell,'rgb(34, 34, 34)');
+        changeCellColor(cell,brushColor);
     });
 });
 
 
 /* MENU OPTIONS */
-document.querySelector('#clear-btn').addEventListener('click',() =>{
-    clearGrid();
+
+
+document.querySelector('#eraser').addEventListener('click',() => {
+    changeBrushColor('white');
+
 });
 
 document.querySelector('#toggle-lines-btn').addEventListener('click', () =>{
@@ -38,6 +42,12 @@ document.querySelector('#toggle-lines-btn').addEventListener('click', () =>{
     else enableGridLines();
 
 });
+
+document.querySelector('#clear-btn').addEventListener('click',() =>{
+    clearGrid();
+});
+
+
 
 /* GRID FUNCTIONS */
 
@@ -61,6 +71,10 @@ function changeCellColor(currentCell,color){
     currentCell.style.backgroundColor = `${color}`;
 }
 
+function changeBrushColor(color){
+    brushColor = color;
+}
+
 function clearGrid(){
     gridCells.forEach((cell) => {
         changeCellColor(cell,'white');
@@ -80,3 +94,4 @@ function enableGridLines(){
     });
     gridLines = true;
 }
+
