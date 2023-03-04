@@ -26,9 +26,15 @@ grid.addEventListener('mouseup',() => {
 
 brushColor.addEventListener('change',() =>{
     brush = 'normal';
+    document.querySelector('#normal-brush').checked  = true;
 });
 
-document.querySelector('#rainbow-brush').addEventListener('click',() => {
+document.querySelector('#normal-brush').addEventListener('change', () =>{
+    brush = 'normal';
+
+});
+
+document.querySelector('#rainbow-brush').addEventListener('change',() => {
     if(brush !== 'rainbow'){
         brush = 'rainbow';
     }else{
@@ -36,7 +42,7 @@ document.querySelector('#rainbow-brush').addEventListener('click',() => {
     }
 });
 
-document.querySelector('#eraser').addEventListener('click',() => {
+document.querySelector('#eraser').addEventListener('change',() => {
     if(brush !== 'eraser'){
         brush = 'eraser';
     }else{
@@ -44,7 +50,7 @@ document.querySelector('#eraser').addEventListener('click',() => {
     }
 });
 
-
+/* Buttons */
 document.querySelector('#toggle-lines-btn').addEventListener('click', () =>{
     if(gridLines) disableGridLines();
     else enableGridLines();

@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
     <title>Document</title>
@@ -14,20 +12,38 @@
         <div id="menu">
             <img id="logo" src="./images/square_painter_logo.png" alt="Square Painter">
 
-            <div>
+            <div id="color-picker">
                 <input type="color" id="brush-color" value="#222222">
                 <label for="brush-color">Brush Color</label>
             </div>
+            <div id="brushes">
+                <div>
+                    <label for="normal-brush">Brush</label>
+                    <input name="brush" id="normal-brush" type="radio" value="normal" checked>
+                </div>
+                <div>
+                    <label for="rainbow-brush">Rainbow</label>
+                    <input name="brush" id="rainbow-brush" type="radio" value="rainbow">
+                </div>
+                <div>
+                    <label for="eraser">Eraser</label>
+                    <input name="brush" id="eraser" type="radio" value="eraser">
+                </div>
+            </div>
+            <!-- <button id="normal-brush" class="btn">Brush</button>
             <button id="rainbow-brush" class="btn">Rainbow</button>
-            <button id="eraser" class="btn">Eraser</button>
+            <button id="eraser" class="btn">Eraser</button> -->
             <button id="toggle-lines-btn" class="btn">Toggle Grid Lines</button>
             <button id="clear-btn" class="btn">Clear Grid</button>
+            
         </div>
 
         <div id="grid-container">
             <div id="slider-container">
-                <input id="slider" type="range" min="2" max="100" value="16">
-                <p id="slider-value">16X16</p>
+                <div id="slider-parent">
+                    <p id="slider-value">16X16</p>
+                    <input id="slider" type="range" min="2" max="100" value="16">
+                </div>
                 <button id="grid-cells-btn" class="btn">Change Size</button>
             </div>
             <div id="grid"></div>

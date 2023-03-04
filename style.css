@@ -3,7 +3,9 @@ body{
     flex-direction: column;
     padding: 0px;
     margin: 0px;
-    height: 100vh;
+    min-height: 100vh;
+    min-width: 900px;
+    font-family: Verdana, Tahoma, sans-serif;
     background-color: rgb(43, 43, 43);
     color: white;
 }
@@ -11,40 +13,17 @@ body{
 #content{
     flex: 1;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    min-width: 1000px;
+    justify-content: center;
     gap: 50px;
-    padding: 100px;
+    padding: 0px;
 
 }
 
-#menu{
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    gap: 10px;
-    
-
+.btn,
+#footer{
+    background-color: #0F52BA;
 }
 
-#logo{
-    width: 250px;
-    height: auto;
-}
-
-.btn{
-    width: 250px;
-    font-size: 22px;
-    font-weight: bold;
-    background-color: rgb(63, 63, 214);
-    color: white;
-    border-radius: 8px;
-    padding: 7px;
-
-}
 
 #grid{
     box-sizing: border-box;
@@ -53,8 +32,17 @@ body{
     width: 604px;
     min-width: 604px;
     padding: 0px;
-    border: 2px solid blue;
+    border: 2px solid #0F52BA;
     background-color: white;
+}
+
+#grid-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding-top: 50px;
+    height: 100%;
 }
 
 .grid-cell{
@@ -62,11 +50,74 @@ body{
     box-sizing: border-box;
 }
 
+#slider-container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#slider-parent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#menu{
+    width: 400px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#color-picker{
+    display: flex;
+    width: 250px;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+#logo{
+    width: 250px;
+    height: auto;
+    justify-self: flex-start;
+}
+
+#brushes{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 300px;
+    width: 210px;
+    border: 1px solid white;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 0px 20px;
+}
+
+#brushes div{
+    display: flex;
+    width: 100%;
+    justify-content: space-between
+}
+
+.btn{
+    width: 250px;
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    border-radius: 8px;
+    padding: 7px;
+}
+
+
 #footer{
     margin: 0px;
     display: flex;
     justify-content: center;
-    background-color: rgb(63, 63, 214);
     font-size: 18px;
     font-weight: 600;
     color: white;
