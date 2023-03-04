@@ -2,6 +2,7 @@ const grid = document.querySelector('#grid');
 const body = document.querySelector('body');
 const GRIDSIDE = 960;
 let gridRowCellCount = 16;
+let gridLines = true;
 
 generateGrid(gridRowCellCount);
 
@@ -26,8 +27,16 @@ gridCells.forEach((cell) => {
     });
 });
 
+
+/* MENU OPTIONS */
 document.querySelector('#clear-btn').addEventListener('click',() =>{
     clearGrid();
+});
+
+document.querySelector('#toggle-lines-btn').addEventListener('click', () =>{
+    if(gridLines) disableGridLines();
+    else enableGridLines();
+
 });
 
 /* GRID FUNCTIONS */
@@ -56,4 +65,18 @@ function clearGrid(){
     gridCells.forEach((cell) => {
         changeCellColor(cell,'white');
     });
+}
+
+function disableGridLines(){
+    gridCells.forEach((cell) => {
+        cell.style.border = 'none';
+    });
+    gridLines = false;
+}
+
+function enableGridLines(){
+    gridCells.forEach((cell) => {
+        cell.style.border = '1px solid black';
+    });
+    gridLines = true;
 }
