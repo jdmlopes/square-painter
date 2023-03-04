@@ -17,8 +17,14 @@
             <button id="toggle-lines-btn" class="btn">Toggle Grid Lines</button>
             <button id="clear-btn" class="btn">Clear Grid</button>
         </div>
-        <div id="grid">
 
+        <div id="grid-container">
+            <div id="slider-container">
+                <input id="slider" type="range" min="2" max="100" value="16">
+                <p id="slider-value">16X16</p>
+                <button id="grid-cells-btn" class="btn">Change Size</button>
+            </div>
+            <div id="grid"></div>
         </div>
     </div>
 

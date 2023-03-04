@@ -1,33 +1,23 @@
 const grid = document.querySelector('#grid');
 const body = document.querySelector('body');
 const GRIDSIDE = grid.offsetWidth - 4;
+const gridSlider = document.querySelector('#slider');
 let gridRowCellCount = 16;
 let gridLines = true;
 let brushColor = 'rgb(34, 34, 34)';
 
-generateGrid(gridRowCellCount);
+let gridCells = generateGrid(gridRowCellCount);
 
-const gridCells = document.querySelectorAll('.grid-cell');
 
-/* COLOR THE CELLS */
+
+/* For the drag and color */
 let mouseDown = 0;
-body.addEventListener('mousedown',() => {
+grid.addEventListener('mousedown',() => {
     mouseDown = 1;
 });
-body.addEventListener('mouseup',() => {
+grid.addEventListener('mouseup',() => {
     mouseDown = 0;
 });
-
-gridCells.forEach((cell) => {
-    cell.addEventListener('mouseover',()=>{
-        if(mouseDown) changeCellColor(cell,brushColor);
-    });
-
-    cell.addEventListener('click',()=>{
-        changeCellColor(cell,brushColor);
-    });
-});
-
 
 /* MENU OPTIONS */
 
@@ -47,6 +37,17 @@ document.querySelector('#clear-btn').addEventListener('click',() =>{
     clearGrid();
 });
 
+gridSlider.addEventListener('input',(e) =>{
+    document.querySelector('#slider-value').textContent = `${e.target.value}X${e.target.value}`;
+
+});
+
+document.querySelector('#grid-cells-btn').addEventListener('click', () => {
+    gridRowCellCount = gridSlider.value;
+    deleteGridCells();
+    gridCells = generateGrid(gridRowCellCount);
+
+});
 
 
 /* GRID FUNCTIONS */
@@ -65,6 +66,24 @@ function generateGrid(rowCellCount){
             grid.appendChild(cell);
         }
     }
+    //add event listeners to the grid cells
+    document.querySelectorAll('.grid-cell').forEach((cell) => {
+        cell.addEventListener('mouseover',()=>{
+            if(mouseDown) changeCellColor(cell,brushColor);
+        });
+    
+        cell.addEventListener('click',()=>{
+            changeCellColor(cell,brushColor);
+        });
+    });
+    
+
+    return document.querySelectorAll('.grid-cell');
+}
+
+function deleteGridCells(){
+    grid.innerHTML = '';
+
 }
 
 function changeCellColor(currentCell,color){
