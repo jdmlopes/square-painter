@@ -83,6 +83,7 @@ function generateGrid(rowCellCount){
             cell.classList.add('grid-cell');
             cell.style.width = `${cellSize}px`;
             cell.style.height = `${cellSize}px`;
+            cell.setAttribute('data-blackch','0'); // chance of brush color be black in rainbow mode
             grid.appendChild(cell);
         }
     }
@@ -112,10 +113,19 @@ function changeCellColor(currentCell,color = brushColor.value){
             currentCell.style.backgroundColor = `${color}`;
             break;
         case 'rainbow':
+            let blackRandom = Math.floor(Math.random() * 100) + 1;
+            let blackChance = Number(currentCell.dataset.blackch);
+            if(blackChance >= blackRandom){ //The cell has a increasing chance of being black each time it's colored
+                currentCell.setAttribute('data-blackch',`${0}`); //resets the chance of being black to zero
+                currentCell.style.backgroundColor = `rgb(34,34,34)`;
+                break;
+            }
+            //random color
             let red = Math.floor(Math.random() * 256);
             let blue = Math.floor(Math.random() * 256);
             let green = Math.floor(Math.random() * 256);
             currentCell.style.backgroundColor = `rgb(${red},${blue},${green})`;
+            currentCell.setAttribute('data-blackch',`${blackChance+10}`); //adds 10% to the chance of being black
             break;
         case 'eraser':
             currentCell.style.backgroundColor = `white`;
@@ -128,7 +138,7 @@ function changeCellColor(currentCell,color = brushColor.value){
 
 function clearGrid(){
     gridCells.forEach((cell) => {
-        changeCellColor(cell,'white');
+        cell.style.backgroundColor = 'white';
     });
 }
 
