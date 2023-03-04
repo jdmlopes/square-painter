@@ -2,9 +2,10 @@ const grid = document.querySelector('#grid');
 const body = document.querySelector('body');
 const GRIDSIDE = grid.offsetWidth - 4;
 const gridSlider = document.querySelector('#slider');
+const brushColor = document.querySelector('#brush-color');
 let gridRowCellCount = 16;
 let gridLines = true;
-let brushColor = 'rgb(34, 34, 34)';
+let brush = 'normal'; //normal, rainbow, eraser
 
 let gridCells = generateGrid(gridRowCellCount);
 
@@ -21,11 +22,28 @@ grid.addEventListener('mouseup',() => {
 
 /* MENU OPTIONS */
 
+/* Brushes */
+
+brushColor.addEventListener('change',() =>{
+    brush = 'normal';
+});
+
+document.querySelector('#rainbow-brush').addEventListener('click',() => {
+    if(brush !== 'rainbow'){
+        brush = 'rainbow';
+    }else{
+        brush = 'normal';
+    }
+});
 
 document.querySelector('#eraser').addEventListener('click',() => {
-    changeBrushColor('white');
-
+    if(brush !== 'eraser'){
+        brush = 'eraser';
+    }else{
+        brush = 'normal';
+    }
 });
+
 
 document.querySelector('#toggle-lines-btn').addEventListener('click', () =>{
     if(gridLines) disableGridLines();
@@ -37,6 +55,7 @@ document.querySelector('#clear-btn').addEventListener('click',() =>{
     clearGrid();
 });
 
+/* GRID CELLS */
 gridSlider.addEventListener('input',(e) =>{
     document.querySelector('#slider-value').textContent = `${e.target.value}X${e.target.value}`;
 
@@ -48,6 +67,7 @@ document.querySelector('#grid-cells-btn').addEventListener('click', () => {
     gridCells = generateGrid(gridRowCellCount);
 
 });
+
 
 
 /* GRID FUNCTIONS */
@@ -69,11 +89,11 @@ function generateGrid(rowCellCount){
     //add event listeners to the grid cells
     document.querySelectorAll('.grid-cell').forEach((cell) => {
         cell.addEventListener('mouseover',()=>{
-            if(mouseDown) changeCellColor(cell,brushColor);
+            if(mouseDown) changeCellColor(cell);
         });
     
         cell.addEventListener('click',()=>{
-            changeCellColor(cell,brushColor);
+            changeCellColor(cell);
         });
     });
     
@@ -86,12 +106,24 @@ function deleteGridCells(){
 
 }
 
-function changeCellColor(currentCell,color){
-    currentCell.style.backgroundColor = `${color}`;
-}
-
-function changeBrushColor(color){
-    brushColor = color;
+function changeCellColor(currentCell,color = brushColor.value){
+    switch(brush){
+        case 'normal':
+            currentCell.style.backgroundColor = `${color}`;
+            break;
+        case 'rainbow':
+            let red = Math.floor(Math.random() * 256);
+            let blue = Math.floor(Math.random() * 256);
+            let green = Math.floor(Math.random() * 256);
+            currentCell.style.backgroundColor = `rgb(${red},${blue},${green})`;
+            break;
+        case 'eraser':
+            currentCell.style.backgroundColor = `white`;
+            break;
+        default:
+            currentCell.style.backgroundColor = `${color}`;
+    }
+    
 }
 
 function clearGrid(){
