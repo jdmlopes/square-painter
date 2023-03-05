@@ -24,6 +24,9 @@ body{
     background-color: #0F52BA;
 }
 
+.btn:hover{
+    cursor: pointer;
+}
 
 #grid{
     box-sizing: border-box;
@@ -50,16 +53,33 @@ body{
     box-sizing: border-box;
 }
 
-#slider-container{
+#cell-count-selector{
     display: flex;
     justify-content: space-between;
     width: 100%;
+    gap: 10px;
 }
 
-#slider-parent{
+#slider-container{
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+}
+
+#slider-value{
+    margin: 0px;
+    padding: 0px;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+#slider{
+    width: 100%;
+}
+
+#slider:hover{
+    cursor: pointer;
 }
 
 #menu{
@@ -78,6 +98,14 @@ body{
     align-items: center;
     font-weight: bold;
     font-size: 22px;
+}
+
+#brush-color{
+    width: 100px;
+}
+
+#brush-color:hover{
+    cursor: pointer;
 }
 
 #logo{

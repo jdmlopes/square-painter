@@ -1,5 +1,4 @@
 const grid = document.querySelector('#grid');
-const body = document.querySelector('body');
 const GRIDSIDE = grid.offsetWidth - 4;
 const gridSlider = document.querySelector('#slider');
 const brushColor = document.querySelector('#brush-color');
@@ -8,7 +7,7 @@ let gridRowCellCount = 16;
 let gridLines = true;
 let brush = 'normal'; //normal, rainbow, eraser, picker
 
-let gridCells = generateGrid(gridRowCellCount);
+let gridCells = generateGrid();
 
 
 
@@ -29,6 +28,8 @@ brushColor.addEventListener('change',() =>{
     brush = 'normal';
     document.querySelector('#normal-brush').checked  = true;
 });
+
+
 
 brushes.forEach((b)=>{
     b.addEventListener('change', () =>{
@@ -64,13 +65,13 @@ document.querySelector('#grid-cells-btn').addEventListener('click', () => {
 
 /* GRID FUNCTIONS */
 
-function generateGrid(rowCellCount){
+function generateGrid(){
     
-    let cellSize = GRIDSIDE/rowCellCount;
+    let cellSize = GRIDSIDE/gridRowCellCount;
 
     
-    for(i = 0; i < rowCellCount; i++){
-        for(j = 0; j < rowCellCount; j++){
+    for(i = 0; i < gridRowCellCount; i++){
+        for(j = 0; j < gridRowCellCount; j++){
             let cell = document.createElement('div');
             cell.classList.add('grid-cell');
             cell.style.width = `${cellSize}px`;
