@@ -57,7 +57,7 @@ gridSlider.addEventListener('input',(e) =>{
 document.querySelector('#grid-cells-btn').addEventListener('click', () => {
     gridRowCellCount = gridSlider.value;
     deleteGridCells();
-    gridCells = generateGrid(gridRowCellCount);
+    gridCells = generateGrid();
 
 });
 
