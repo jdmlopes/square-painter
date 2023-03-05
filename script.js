@@ -3,9 +3,10 @@ const body = document.querySelector('body');
 const GRIDSIDE = grid.offsetWidth - 4;
 const gridSlider = document.querySelector('#slider');
 const brushColor = document.querySelector('#brush-color');
+const brushes = document.querySelectorAll('.brush');
 let gridRowCellCount = 16;
 let gridLines = true;
-let brush = 'normal'; //normal, rainbow, eraser
+let brush = 'normal'; //normal, rainbow, eraser, picker
 
 let gridCells = generateGrid(gridRowCellCount);
 
@@ -29,25 +30,10 @@ brushColor.addEventListener('change',() =>{
     document.querySelector('#normal-brush').checked  = true;
 });
 
-document.querySelector('#normal-brush').addEventListener('change', () =>{
-    brush = 'normal';
-
-});
-
-document.querySelector('#rainbow-brush').addEventListener('change',() => {
-    if(brush !== 'rainbow'){
-        brush = 'rainbow';
-    }else{
-        brush = 'normal';
-    }
-});
-
-document.querySelector('#eraser').addEventListener('change',() => {
-    if(brush !== 'eraser'){
-        brush = 'eraser';
-    }else{
-        brush = 'normal';
-    }
+brushes.forEach((b)=>{
+    b.addEventListener('change', () =>{
+        brush = b.value;
+    });
 });
 
 /* Buttons */
@@ -136,6 +122,11 @@ function changeCellColor(currentCell,color = brushColor.value){
         case 'eraser':
             currentCell.style.backgroundColor = `white`;
             break;
+        case 'picker':
+            brushColor.value = rgbToHex(currentCell.style.backgroundColor);
+            document.querySelector('#normal-brush').checked  = true;
+            brush = 'normal';
+            break;
         default:
             currentCell.style.backgroundColor = `${color}`;
     }
@@ -160,5 +151,26 @@ function enableGridLines(){
         cell.style.border = '1px solid black';
     });
     gridLines = true;
+}
+
+function rgbToHex(rgb){
+    if(rgb.charAt(0) === '#') return rgb;
+
+    if(rgb === '') return '#ffffff';
+
+    let hex = rgb.replace('rgb(','');
+    hex = hex.replace(')','');
+    hex = hex.replaceAll(' ','');
+
+    let colors = hex.split(',');
+    let red = Number(colors[0]).toString(16);
+    let blue = Number(colors[1]).toString(16);
+    let green = Number(colors[2]).toString(16);
+
+    if(red.length === 1) red = red.padStart(2,'0');
+    if(blue.length === 1) blue = blue.padStart(2,'0');
+    if(green.length === 1) green = green.padStart(2,'0');
+
+    return `#${red}${blue}${green}`;
 }
 
