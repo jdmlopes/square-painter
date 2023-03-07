@@ -6,7 +6,7 @@ const brushes = document.querySelectorAll('.brush');
 let gridRowCellCount = 16;
 let gridLines = true;
 let brush = 'normal'; //normal, rainbow, eraser, picker
-
+document.body.ondragstart = function (){return false;}; // this prevents dragging on the page
 let gridCells = generateGrid();
 
 /* For the drag and color */
@@ -71,6 +71,7 @@ function generateGrid(){
             cell.style.width = `${cellSize}px`;
             cell.style.height = `${cellSize}px`;
             cell.style.backgroundColor = 'white';
+            cell.ondragstart = function(){return false;}
             cell.setAttribute('data-blackch','0'); // chance of brush color be black in rainbow mode
             grid.appendChild(cell);
         }
