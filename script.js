@@ -9,16 +9,10 @@ let brush = 'normal'; //normal, rainbow, eraser, picker
 
 let gridCells = generateGrid();
 
-
-
 /* For the drag and color */
-let mouseDown = 0;
-grid.addEventListener('mousedown',() => {
-    mouseDown = 1;
-});
-grid.addEventListener('mouseup',() => {
-    mouseDown = 0;
-});
+let mouseDown = false;
+document.body.addEventListener('mousedown',() => mouseDown = true);
+document.body.addEventListener('mouseup',() => mouseDown = false);
 
 /* MENU OPTIONS */
 
@@ -76,19 +70,16 @@ function generateGrid(){
             cell.classList.add('grid-cell');
             cell.style.width = `${cellSize}px`;
             cell.style.height = `${cellSize}px`;
+            cell.style.backgroundColor = 'white';
             cell.setAttribute('data-blackch','0'); // chance of brush color be black in rainbow mode
             grid.appendChild(cell);
         }
     }
     //add event listeners to the grid cells
     document.querySelectorAll('.grid-cell').forEach((cell) => {
-        cell.addEventListener('mouseover',()=>{
-            if(mouseDown) changeCellColor(cell);
-        });
+        cell.addEventListener('mouseover', changeCellColor);
     
-        cell.addEventListener('click',()=>{
-            changeCellColor(cell);
-        });
+        cell.addEventListener('mousedown', changeCellColor);
     });
     
 
@@ -100,38 +91,40 @@ function deleteGridCells(){
 
 }
 
-function changeCellColor(currentCell,color = brushColor.value){
+function changeCellColor(e){
+    if(e.type === 'mouseover' && !mouseDown) return;
+
     switch(brush){
         case 'normal':
-            currentCell.style.backgroundColor = `${color}`;
+            e.target.style.backgroundColor = `${brushColor.value}`;
             break;
+
         case 'rainbow':
             let blackRandom = Math.floor(Math.random() * 100) + 1;
-            let blackChance = Number(currentCell.dataset.blackch);
+            let blackChance = Number(e.target.dataset.blackch);
             if(blackChance >= blackRandom){ //The cell has a increasing chance of being black each time it's colored
-                currentCell.setAttribute('data-blackch',`${0}`); //resets the chance of being black to zero
-                currentCell.style.backgroundColor = `rgb(34,34,34)`;
+                e.target.setAttribute('data-blackch',`${0}`); //resets the chance of being black to zero
+                e.target.style.backgroundColor = `rgb(34,34,34)`;
                 break;
             }
             //random color
             let red = Math.floor(Math.random() * 256);
             let blue = Math.floor(Math.random() * 256);
             let green = Math.floor(Math.random() * 256);
-            currentCell.style.backgroundColor = `rgb(${red},${blue},${green})`;
-            currentCell.setAttribute('data-blackch',`${blackChance+10}`); //adds 10% to the chance of being black
+            e.target.style.backgroundColor = `rgb(${red},${blue},${green})`;
+            e.target.setAttribute('data-blackch',`${blackChance+10}`); //adds 10% to the chance of being black
             break;
+
         case 'eraser':
-            currentCell.style.backgroundColor = `white`;
+            e.target.style.backgroundColor = `white`;
             break;
+
         case 'picker':
-            brushColor.value = rgbToHex(currentCell.style.backgroundColor);
+            brushColor.value = rgbToHex(e.target.style.backgroundColor);
             document.querySelector('#normal-brush').checked  = true;
             brush = 'normal';
             break;
-        default:
-            currentCell.style.backgroundColor = `${color}`;
     }
-    
 }
 
 function clearGrid(){
