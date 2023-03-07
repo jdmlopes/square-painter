@@ -5,7 +5,7 @@ const brushColor = document.querySelector('#brush-color');
 const brushes = document.querySelectorAll('.brush');
 let gridRowCellCount = 16;
 let gridLines = true;
-let brush = 'normal'; //normal, rainbow, eraser, picker
+let currentBrush = 'normal'; //normal, rainbow, eraser, picker
 document.body.ondragstart = function (){return false;}; // this prevents dragging on the page
 let gridCells = generateGrid();
 
@@ -14,50 +14,25 @@ let mouseDown = false;
 document.body.addEventListener('mousedown',() => mouseDown = true);
 document.body.addEventListener('mouseup',() => mouseDown = false);
 
-/* MENU OPTIONS */
-
-/* Brushes */
-
+/* BRUSHES */
 brushColor.addEventListener('change',() =>{
-    brush = 'normal';
+    changeBrush('normal');
     document.querySelector('#normal-brush').checked  = true;
 });
 
-
-
-brushes.forEach((b)=>{
-    b.addEventListener('change', () =>{
-        brush = b.value;
-    });
+brushes.forEach((brush)=>{
+    brush.addEventListener('change', changeBrush.bind(null,brush.value));
 });
 
-/* Buttons */
-document.querySelector('#toggle-lines-btn').addEventListener('click', () =>{
-    if(gridLines) disableGridLines();
-    else enableGridLines();
-
-});
-
-document.querySelector('#clear-btn').addEventListener('click',() =>{
-    clearGrid();
-});
+/* MENU BUTTONS */
+document.querySelector('#toggle-lines-btn').addEventListener('click', toggleGridLines);
+document.querySelector('#clear-btn').addEventListener('click', clearGrid);
 
 /* GRID CELLS */
-gridSlider.addEventListener('input',(e) =>{
-    document.querySelector('#slider-value').textContent = `${e.target.value}X${e.target.value}`;
+gridSlider.addEventListener('input',displayGridCellCount);
+document.querySelector('#grid-cells-btn').addEventListener('click', changeGridCellCount);
 
-});
-
-document.querySelector('#grid-cells-btn').addEventListener('click', () => {
-    gridRowCellCount = gridSlider.value;
-    deleteGridCells();
-    gridCells = generateGrid();
-
-});
-
-
-
-/* GRID FUNCTIONS */
+/* FUNCTIONS */
 
 function generateGrid(){
     
@@ -70,7 +45,7 @@ function generateGrid(){
             cell.classList.add('grid-cell');
             cell.style.width = `${cellSize}px`;
             cell.style.height = `${cellSize}px`;
-            cell.style.backgroundColor = 'white';
+            cell.style.backgroundColor = '#FFFFFF';
             cell.ondragstart = function(){return false;}
             cell.setAttribute('data-blackch','0'); // chance of brush color be black in rainbow mode
             grid.appendChild(cell);
@@ -95,15 +70,16 @@ function deleteGridCells(){
 function changeCellColor(e){
     if(e.type === 'mouseover' && !mouseDown) return;
 
-    switch(brush){
+    switch(currentBrush){
         case 'normal':
             e.target.style.backgroundColor = `${brushColor.value}`;
             break;
 
         case 'rainbow':
+            //The cell has a increasing chance of being black each time it's colored
             let blackRandom = Math.floor(Math.random() * 100) + 1;
             let blackChance = Number(e.target.dataset.blackch);
-            if(blackChance >= blackRandom){ //The cell has a increasing chance of being black each time it's colored
+            if(blackChance >= blackRandom){ 
                 e.target.setAttribute('data-blackch',`${0}`); //resets the chance of being black to zero
                 e.target.style.backgroundColor = `rgb(34,34,34)`;
                 break;
@@ -117,20 +93,20 @@ function changeCellColor(e){
             break;
 
         case 'eraser':
-            e.target.style.backgroundColor = `white`;
+            e.target.style.backgroundColor = `#FFFFFF`;
             break;
 
         case 'picker':
             brushColor.value = rgbToHex(e.target.style.backgroundColor);
             document.querySelector('#normal-brush').checked  = true;
-            brush = 'normal';
+            currentBrush = 'normal';
             break;
     }
 }
 
 function clearGrid(){
     gridCells.forEach((cell) => {
-        cell.style.backgroundColor = 'white';
+        cell.style.backgroundColor = '#FFFFFF';
     });
 }
 
@@ -146,6 +122,25 @@ function enableGridLines(){
         cell.style.border = '1px solid black';
     });
     gridLines = true;
+}
+
+function toggleGridLines(){
+    if(gridLines) disableGridLines();
+    else enableGridLines();
+}
+
+function changeBrush(brushName){
+    currentBrush = brushName;
+}
+
+function displayGridCellCount(e){
+    document.querySelector('#slider-value').textContent = `${e.target.value}X${e.target.value}`;
+}
+
+function changeGridCellCount(){
+    gridRowCellCount = gridSlider.value;
+    deleteGridCells();
+    gridCells = generateGrid();
 }
 
 function rgbToHex(rgb){
@@ -168,4 +163,3 @@ function rgbToHex(rgb){
 
     return `#${red}${blue}${green}`;
 }
-
